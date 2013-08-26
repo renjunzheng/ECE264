@@ -47,8 +47,8 @@
 */
 int addElement(int * array, int length)
 {
-  int sum = 0;
-  int i;
+  int sum = 0;   // The sum of the array, initialized with total as 0
+  int i;         // The index used for array
 
   for(i = 0; i < length; i++)
   {
@@ -81,8 +81,8 @@ int addElement(int * array, int length)
 */
 int countNegative(int * array, int length)
 {
-  int num = 0;
-  int i;
+  int num = 0;      // The total number of negative number, initialized with 0
+  int i;            // The index for the array
 
   for(i = 0; i < length; i++)
   {
@@ -140,8 +140,8 @@ int countNegative(int * array, int length)
 */
 int isIncreasing(int * array, int length)
 {
-  int i = 0;
-  int j = 1;
+  int i = 0;        // The index for the array
+  int j = 1;        // The result shows whether the array is an increasing array, if it is j=1 the array is an increasing array. If j=0 the array is not an increasing array.
 
   do
   {
