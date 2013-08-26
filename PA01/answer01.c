@@ -1,6 +1,6 @@
 //good job, keep working
 //
-/*
+/**
  * Please fill the functions in this file.
  */
 #include <stdio.h>
@@ -47,7 +47,15 @@
 */
 int addElement(int * array, int length)
 {
-    return 0;
+  int sum = 0;
+  int i;
+
+  for(i = 0; i < length; i++)
+  {
+    sum += array[i];
+  }
+ 
+  return(sum);
 }
 /*
  * =================================================================
@@ -73,7 +81,18 @@ int addElement(int * array, int length)
 */
 int countNegative(int * array, int length)
 {
-    return 0;
+  int num = 0;
+  int i;
+
+  for(i = 0; i < length; i++)
+  {
+    if(array[i] < 0)
+    {
+      num++;
+    }
+  }
+
+  return(num);
 }
 /*
  * =================================================================
@@ -121,5 +140,17 @@ int countNegative(int * array, int length)
 */
 int isIncreasing(int * array, int length)
 {
-    return 0;
+  int i = 0;
+  int j = 1;
+
+  do
+  {
+    if(array[i] >= array[i + 1])
+    {
+      j--;
+    }
+    i++;
+  }while((i < length - 1) && (j == 1));
+   
+  return(j);
 }
