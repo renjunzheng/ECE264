@@ -188,25 +188,31 @@ void my_strncat(char * s1, const char * s2, int num)
  * Example: my_strstr("hello world!", "test") will yield 0 (NULL).
  * Example(2): my_strstr("foobar", "bar") will yield a pointer to the
  * "bar" portion of the "foobar" argument.
+
+s1 = "abcdef", s2="cde"
+Q: Where does s2 appear in s1?
+A: s2 appears at s1 + 2.
+
  */
 
-const char *my_strstr(const char * s1, const char * s2)
+const char * my_strstr(const char * s1, const char * s2)
 {
   int i;
-  int length1;
-  int j;
-  int length2;
-  /*
-  length1 = my_strlen(s1);
-  length2 = my_strlen(s2);
-  do
-    {
-      if(s2[i] == s1[j])
-	{
-	s2[i + 1] ==  */ 
-    return NULL;
-}
+  int length2 = my_strlen(s2);
 
+  // We will return either 'p' or NULL
+  const char * p = s1;
+  
+  // Does p _begin with_ s2 -- a for loop
+  int same = 1;
+  for(i = 0; i < length2 && same == 1; ++i)
+    if(p[i] != s2[i] || p[i] == '\0')
+      same = 0;
+ 
+  return (const char *) p; // any number will work
+
+  //return NULL;   //if it not work
+}
 
 
 /**
@@ -237,7 +243,28 @@ const char *my_strstr(const char * s1, const char * s2)
  */
 void my_strinsert(char *s1, const char *s2, int pos)
 {
-  
+  int len1;
+  int len2;
+  int i;
+  int j;
+
+  len1 = my_strlen(s1);
+  len2 = my_strlen(s2);
+  if(len1 < pos)
+    {
+      my_strcat(s1,s2);
+    }
+  else
+    {
+      for(i = len1; i >= pos; i--) 
+	{
+          s1[len2 + i] = s1[i];
+	}
+      for(j = 0; j < len2; j++)
+	{
+          s1[pos + j] = s2[j];
+	}
+    }
 }
 
 /**
@@ -272,6 +299,22 @@ void my_strinsert(char *s1, const char *s2, int pos)
  */
 void my_strdelete(char *s, int pos, int length)
 {
+  int i;
+  int len;
   
+  len = my_strlen(s);
+  // if(pos < length)
+  //  {
+      if(len - pos < length)
+	{
+          s[pos] = '\0';
+	}
+      else
+	{
+          for(i = 0; i <= len - pos - length; i++)
+	    {
+              s[pos + i] = s[pos + length + i];
+	    }
+	} 
 }
 
