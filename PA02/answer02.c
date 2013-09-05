@@ -209,9 +209,14 @@ const char * my_strstr(const char * s1, const char * s2)
     if(p[i] != s2[i] || p[i] == '\0')
       same = 0;
  
-  return (const char *) p; // any number will work
-
-  //return NULL;   //if it not work
+  if(p != NULL)
+    {
+      return (const char *) p;
+    }
+  else
+    {
+      return NULL;
+    }
 }
 
 
