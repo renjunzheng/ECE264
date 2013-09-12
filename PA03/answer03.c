@@ -140,10 +140,10 @@ void swap(int * a, int * b)
   *b = t;
 }
 
-//sort from [ left - idx, right - idx]   inclusive
-void sortHelper(int * arr, int left_idx, ind right_idx)
+//sort from [ left_idx, right_idx]   inclusive
+int sortHelper(int * arr, int left_idx, ind right_idx)
 {
-  int pivot = arr[left_idx]; // should be 4
+  int pivot = arr[left_idx];
   int r;
   for(r = left_idx + 1; r <= right_idx ; r++)
     {
@@ -155,14 +155,28 @@ void sortHelper(int * arr, int left_idx, ind right_idx)
 	  swap(&arr[r], &arr[left_idx + 1]);
 	}
     }
+
+  return left_idx;
 }
 
 void sort(int * arr, int length)
 {
-  sortHelper(&arr,0,length);
+  int pivot = arr[0];
+  int ind1 = arr[1];
+  int ind2 = arr[length - 1];
+  int index = 0;
+  for(r = 1; r <= length - 1 ; r++)
+    {
+      if(arr[r] > piovt)
+        index++;
+      else if (arr[r] < pivot)
+        {
+          swap(&arr[r], &arr[index]);
+        }
+    }
 
-  sortHelper(arr,0,2);
-  sortHelper(arr,3,7);
+  sortHelper(arr,0,left);
+  sortHelper(arr,left,7);
 }
 
 /**
