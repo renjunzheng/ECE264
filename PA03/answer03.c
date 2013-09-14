@@ -187,7 +187,7 @@ void sortHelper(int * arr, int left, int right)
     {
       if(pivot > arr[ind1])
 	{
-	  swap(&arr[ind], & arr[ind1]);
+	  swap(&arr[ind], &arr[ind1]);
 	}
     }
 
