@@ -1,4 +1,7 @@
-
+int searchHelper(int *, int, int, int);
+void swap(int *, int *);
+int searchHelper(int *, int, int, int);
+void sortHelper(int *, int, int);
 #include "pa03.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -63,7 +66,7 @@
 int * readIntegers(const char * filename, int * numberOfIntegers)
 {
   FILE * fptr;
-  int val;
+  int val = 0;
   int num = 0;
 
   fptr = fopen(filename, "r");
@@ -73,19 +76,19 @@ int * readIntegers(const char * filename, int * numberOfIntegers)
       return NULL;
     }
  
-  while(fscanf(fptr, "%d", & val) == 1)
+  while(fscanf(fptr, "%d", &val) == 1)
     {
       num++;
     }
- 
-  *numberOfIntegers = num;
 
-  int *arr = malloc(num * sizeof(int));
+  *numberOfIntegers= num;
+
+  int * arr = malloc(num * sizeof(int));
   int index = 0;
 
-  fseek(fptr, 0, SEEK_END);
+  fseek(fptr, 0, SEEK_SET);
 
-  while(fscanf(fptr, "%d", & val) == 1)
+  while(fscanf(fptr, "%d", &val) == 1)
     {
       arr[index] = val;
       index++;
@@ -140,43 +143,71 @@ void swap(int * a, int * b)
   *b = t;
 }
 
-//sort from [ left_idx, right_idx]   inclusive
-int sortHelper(int * arr, int left_idx, ind right_idx)
+void sortHelper(int * arr, int left, int right)
 {
-  int pivot = arr[left_idx];
-  int r;
-  for(r = left_idx + 1; r <= right_idx ; r++)
+  int ind = left;
+  int pivot = arr[ind];
+  int ind1 = left + 1;
+  int ind2 = right;
+  
+  if((ind2 - ind1) >= 1 )
     {
-      if(arr[r] > piovt)
-	arr[r] = arr[r] *2 + 1;   //should be odd
-      else if (arr[r] < pivot)
+      while(left < right)
 	{
-	  arr[r] /= 2; // should be small
-	  swap(&arr[r], &arr[left_idx + 1]);
+	  while((arr[left] < pivot) && (left < right))
+	    {
+	      left++;
+	    }
+	  while((arr[right] > pivot) && (left < right))
+	    {
+	      right--;
+	    }
+	  swap(&arr[left],&arr[right]);
+	}
+      if(arr[left] > pivot)
+	{
+	  swap(&arr[left - 1], &arr[ind]);
+	  left = left - 1;
+	}
+      else if(arr[left] < pivot)
+	{
+	  swap(&arr[left], &arr[ind]);
+	}
+ 
+      if(left <= ind2)
+	{
+	  sortHelper(arr,ind,left);
+	}
+      if(right + 1 <= ind2)
+	{
+	  sortHelper(arr,left + 1, ind2);
+	}
+    }
+  if(ind2 == ind1)
+    {
+      if(pivot > arr[ind1])
+	{
+	  swap(&arr[ind], & arr[ind1]);
 	}
     }
 
-  return left_idx;
 }
 
 void sort(int * arr, int length)
-{
-  int pivot = arr[0];
-  int ind1 = arr[1];
-  int ind2 = arr[length - 1];
-  int index = 0;
-  for(r = 1; r <= length - 1 ; r++)
+{ 
+  int ind = 0;
+  int val = 0;
+  for(ind = 0; ind < length - 1; ind++)
     {
-      if(arr[r] > piovt)
-        index++;
-      else if (arr[r] < pivot)
-        {
-          swap(&arr[r], &arr[index]);
-        }
+      if(arr[ind] > arr[ind + 1])
+	{
+	  val++;
+	}
     }
-
-  sortHelper(arr,0,left);
-  sortHelper(arr,left,7);
+  if(val > 0)
+    {
+      sortHelper(arr,0,length - 1);
+    }
 }
 
 /**
@@ -225,7 +256,33 @@ void sort(int * arr, int length)
  */
 int search(int * arr, int length, int key)
 {
-    return -1;
+  int pos;
+  pos = searchHelper(arr,0,length - 1,key);
+
+  return pos;
 }
 
+int searchHelper(int * arr, int low, int high, int key)
+{
+  if(low > high)
+    {
+      return -1;
+    }
 
+  int ind = (low + high) / 2;
+
+  if(arr[ind] > key)
+    {
+      ind = searchHelper(arr,low,ind - 1,key);
+    }
+  else if(arr[ind] == key)
+    {
+      return ind;
+    }
+  else
+    {
+      ind = searchHelper(arr,ind + 1,high,key);
+    }
+
+  return ind;
+}
