@@ -63,7 +63,31 @@
 
 int * readInteger(char * filename, int * numInteger)
 {
-  
+  FILE * fptr;
+  int val = 0;
+  int num = 0;
+
+  fptr = fopen(filename, "r");
+  if(fptr == NULL)
+    {
+      return NULL;
+    }
+  while(fscanf(fptr, "%d", &val) == 1)
+    {
+      num++;
+    }
+  *numInteger = num;
+  int * arr = malloc(num * sizeof(int));
+  int index = 0;
+  fseek(fptr, 0, SEEK_SET);
+  while(fscanf(fptr,"%d", &val) == 1)
+    {
+      arr[index] = val;
+      index++;
+    }
+  fclose(fptr);
+
+  return arr;
 }
 
 /* ----------------------------------------------- */
