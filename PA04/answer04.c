@@ -29,9 +29,6 @@ void partIncreaseMemo(int);
 void partDecrease(int *, int, int);
 void partDecreaseMemo(int);
 void partOddEven(int *, int, int);
-void partIncreasePrint(int *, int);
-void partDecreasePrint(int *, int);
-void partOddEvenPrint(int *, int);
 int isPrime(int);
 void partOddEvenMemo(int);
 
@@ -57,7 +54,7 @@ void partitionAll(int value)
 
 void partAllMemo(int n)
 {
-  int * buffer = malloc(100 * sizeof(int));
+  int * buffer = malloc(n * sizeof(int));
   partAll(buffer,0,n);
   free(buffer);
 }
@@ -121,7 +118,7 @@ void partitionIncreasing(int value)
 
 void partIncreaseMemo(int n)
 {
-  int *buffer = malloc(100 * sizeof(int));
+  int *buffer = malloc(n * sizeof(int));
   partIncrease(buffer,0,n);
   free(buffer);
 }
@@ -132,41 +129,20 @@ void partIncrease(int * arr, int pos, int n)
 
   if(n <= 0)
     {
-      partIncreasePrint(arr,pos);
+      partPrint(arr,pos);
     }
 
   for(i = 1; i <= n; i++)
     {
       arr[pos] = i;
-      partIncrease(arr, pos + 1, n - i);
-    }
-}
-
-void partIncreasePrint(int * arr, int len)
-{
-  int i;
-  int index = 0;
-
-  for(i = 1; i < len; i++)
-    {
-      if(arr[i] <= arr[i - 1])
+      if(pos > 0 && arr[pos - 1] < arr[pos])
 	{
-	  index++;
+	  partIncrease(arr, pos + 1, n - i);
 	}
-    }
-
-  if(index == 0)
-    {
-      printf("= ");
-      if(len > 0)
+      if(pos == 0)
 	{
-	  printf("%d", arr[0]);
+	  partIncrease(arr, pos + 1, n - i);
 	}
-      for(i = 1; i < len; i++)
-	{
-	  printf(" + %d", arr[i]);
-	}
-      printf("\n");
     }
 }
 
@@ -199,7 +175,7 @@ void partitionDecreasing(int value)
 
 void partDecreaseMemo(int n)
 {
-  int *buffer = malloc(100 * sizeof(int));
+  int *buffer = malloc(n * sizeof(int));
   partDecrease(buffer,0,n);
   free(buffer);
 }
@@ -216,41 +192,16 @@ void partDecrease(int * arr, int pos, int n)
   for(i = 1; i <= n; i++)
     {
       arr[pos] = i;
-      if(pos > 0 && arr[pos] < arr[pos - 1])
+      if(pos > 0 && arr[pos - 1] > arr[pos])
+	{
+	  partDecrease(arr, pos + 1, n - i);
+	}
+      if(pos == 0)
 	{
 	  partDecrease(arr, pos + 1, n - i);
 	}
     }
 }
-
-void partDecreasePrint(int * arr, int len)
-{
-  int i;
-  int index = 0;
-
-  for(i = 1; i < len; i++)
-    {
-      if(arr[i] >= arr[i - 1])
-	{
-	  index++;
-	}
-    }
-
-  if(index == 0)
-    {
-      printf("= ");
-      if(len > 0)
-	{
-          printf("%d", arr[0]);
-        }
-      for(i = 1; i < len; i++)
-        {
-          printf(" + %d", arr[i]);
-	}
-      printf("\n");
-    }
-}
-
 
 /*
  * =================================================================
@@ -278,7 +229,7 @@ void partitionOdd(int value)
 
 void partOddMemo(int n)
 {
-  int * buffer = malloc(100 * sizeof(int));
+  int * buffer = malloc(n * sizeof(int));
   partOdd(buffer,0,n);
   free(buffer);
 }
@@ -294,7 +245,7 @@ void partOdd(int * arr, int pos, int n)
 
   for(i = 1; i <= n; i++)
     {
-      if(n % 2 == 1)
+      if(i % 2 == 1)
 	{
 	  arr[pos] = i;
 	  partOdd(arr, pos + 1, n - i);
@@ -329,7 +280,7 @@ void partitionEven(int value)
 
 void partEvenMemo(int n)
 {
-  int *buffer = malloc(100 * sizeof(int));
+  int *buffer = malloc(n * sizeof(int));
   partEven(buffer,0,n);
   free(buffer);
 }
@@ -345,7 +296,7 @@ void partEven(int * arr, int pos, int n)
 
   for(i = 1; i <= n; i++)
     {
-      if(n % 2 == 0)
+      if(i % 2 == 0)
 	{
 	  arr[pos] = i;
 	  partEven(arr, pos + 1, n - i);
@@ -380,7 +331,7 @@ void partitionOddAndEven(int value)
 
 void partOddEvenMemo(int n)
 {
-  int *buffer = malloc(100 * sizeof(int));
+  int *buffer = malloc(n * sizeof(int));
   partOddEven(buffer,0,n);
   free(buffer);
 }
@@ -396,41 +347,13 @@ void partOddEven(int * arr, int pos, int n)
 
   for(i = 1; i <= n; i++)
     {
-      arr[pos] = i;
-      partOddEven(arr, pos + 1, n - i);
-    }
-}
-
-void partOddEvenPrint(int * arr, int len)
-{
-  int i;
-  int index = 0;
-
-  for(i = 1; i < len; i += 2)
-    {
-      if(arr[i] % 2 != 0)
-        index++;
-    }
-  for(i = 0; i < len; i += 2)
-    {
-      if(arr[i] % 2 != 0)
-	index++;
-    }
-  if(index == 0)
-    {
-      printf("= ");
-      if(len > 0)
-	{
-          printf("%d", arr[0]);
-        }
-      for(i = 1; i < len; i++)
-        {
-          printf(" + %d", arr[i]);
+      if((pos % 2) != (i % 2))
+	{  
+	  arr[pos] = i;   
+	  partOddEven(arr, pos + 1, n - i);
 	}
-      printf("\n");
     }
 }
-
 
 /*
  * =================================================================
@@ -458,7 +381,7 @@ void partitionPrime(int value)
 
 void partPrimeMemo(int n)
 {
-  int *buffer = malloc(100 * sizeof(int));
+  int *buffer = malloc(n * sizeof(int));
   partPrime(buffer,0,n);
   free(buffer);
 }
@@ -466,7 +389,7 @@ void partPrimeMemo(int n)
 void partPrime(int * arr, int pos, int n)
 {
   int i;
-  int index;
+  int index = 0;
 
   if(n <= 0)
     {
@@ -475,11 +398,12 @@ void partPrime(int * arr, int pos, int n)
 
   for(i = 1; i <= n; i++)
     {
-      arr[pos] = i;
       index = isPrime(i);
-      if(index == 0)
-	return;
-      partPrime(arr, pos + 1, n - i);
+      if(index == 1)
+	{
+	  arr[pos] = i;
+	  partPrime(arr, pos + 1, n - i);
+	}
     }
 }
 
@@ -487,11 +411,14 @@ int isPrime(int n)
 {
   int ind;
   
-  for(ind = 1; ind <=n; ind++)
+  if(n == 1)
+    return 0;
+  if(n == 2)
+    return 1;
+  for(ind = 2; ind < n; ind++)
     {
-      if((n % ind == 0) && (n > 2))
+      if(n % ind == 0)
 	return 0;
     }
-
   return 1;
 }
