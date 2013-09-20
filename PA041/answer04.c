@@ -15,6 +15,7 @@
 #include "pa04.h"
 #include <stdio.h>
 #include <stdlib.h>
+<<<<<<< HEAD
 void partAllMemo(int);
 void partAll(int *, int, int);
 void partPrint(int *, int);
@@ -31,6 +32,10 @@ void partDecreaseMemo(int);
 void partOddEven(int *, int, int);
 int isPrime(int);
 void partOddEvenMemo(int);
+=======
+
+
+>>>>>>> a4ed72fb84f87f0b767d28001b3370bbf65bed45
 
 /*
  * =================================================================
@@ -48,6 +53,7 @@ void partOddEvenMemo(int);
 void partitionAll(int value)
 {
   printf("partitionAll %d\n", value);
+<<<<<<< HEAD
   partAllMemo(value);
 
 }
@@ -91,6 +97,10 @@ void partPrint(int * arr, int len)
   printf("\n");
 }
 
+=======
+  
+}
+>>>>>>> a4ed72fb84f87f0b767d28001b3370bbf65bed45
 /*
  * =================================================================
  * This function prints the partitions that use increasing values.
@@ -110,6 +120,7 @@ void partPrint(int * arr, int len)
  *
  */
 
+<<<<<<< HEAD
 void partitionIncreasing(int value)
 {
   printf("partitionIncreasing %d\n", value);
@@ -147,6 +158,15 @@ void partIncrease(int * arr, int pos, int n)
 }
 
 
+=======
+
+void partitionIncreasing(int value)
+{
+  printf("partitionIncreasing %d\n", value);
+
+}
+
+>>>>>>> a4ed72fb84f87f0b767d28001b3370bbf65bed45
 /*
  * =================================================================
  * This function prints the partitions that use Decreasing values.
@@ -170,6 +190,7 @@ void partIncrease(int * arr, int pos, int n)
 void partitionDecreasing(int value)
 {
   printf("partitionDecreasing %d\n", value);
+<<<<<<< HEAD
   partDecreaseMemo(value);
 }
 
@@ -201,6 +222,10 @@ void partDecrease(int * arr, int pos, int n)
 	  partDecrease(arr, pos + 1, n - i);
 	}
     }
+=======
+  
+
+>>>>>>> a4ed72fb84f87f0b767d28001b3370bbf65bed45
 }
 
 /*
@@ -224,6 +249,7 @@ void partDecrease(int * arr, int pos, int n)
 void partitionOdd(int value)
 {
   printf("partitionOdd %d\n", value);
+<<<<<<< HEAD
   partOddMemo(value);
 }
 
@@ -251,6 +277,9 @@ void partOdd(int * arr, int pos, int n)
 	  partOdd(arr, pos + 1, n - i);
 	}
     }
+=======
+  
+>>>>>>> a4ed72fb84f87f0b767d28001b3370bbf65bed45
 }
 
 /*
@@ -275,6 +304,7 @@ void partOdd(int * arr, int pos, int n)
 void partitionEven(int value)
 {
   printf("partitionEven %d\n", value);
+<<<<<<< HEAD
   partEvenMemo(value);
 }
 
@@ -302,6 +332,9 @@ void partEven(int * arr, int pos, int n)
 	  partEven(arr, pos + 1, n - i);
 	}
     }
+=======
+
+>>>>>>> a4ed72fb84f87f0b767d28001b3370bbf65bed45
 }
 
 /*
@@ -326,6 +359,7 @@ void partEven(int * arr, int pos, int n)
 void partitionOddAndEven(int value)
 {
   printf("partitionOddAndEven %d\n", value);
+<<<<<<< HEAD
   partOddEvenMemo(value);
 }
 
@@ -353,6 +387,9 @@ void partOddEven(int * arr, int pos, int n)
 	  partOddEven(arr, pos + 1, n - i);
 	}
     }
+=======
+  
+>>>>>>> a4ed72fb84f87f0b767d28001b3370bbf65bed45
 }
 
 /*
@@ -376,6 +413,7 @@ void partOddEven(int * arr, int pos, int n)
 void partitionPrime(int value)
 {
   printf("partitionPrime %d\n", value);
+<<<<<<< HEAD
   partPrimeMemo(value);
 }
 
@@ -421,4 +459,7 @@ int isPrime(int n)
 	return 0;
     }
   return 1;
+=======
+
+>>>>>>> a4ed72fb84f87f0b767d28001b3370bbf65bed45
 }
