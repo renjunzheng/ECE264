@@ -76,7 +76,9 @@ int * readInteger(char * filename, int * numInteger)
     {
       num++;
     }
+  
   *numInteger = num;
+
   int * arr = malloc(num * sizeof(int));
   int index = 0;
   fseek(fptr, 0, SEEK_SET);
@@ -166,6 +168,12 @@ char * * readString(char * filename, int * numString)
  */
 void printInteger(int * arrInteger, int numInteger)
 {
+  int i;
+  
+  for(i = 0; i < numInteger; i++)
+    {
+      printf("%d\n", arr[i]);
+    }
 }
 
 /* ----------------------------------------------- */
@@ -184,6 +192,7 @@ void printString(char * * arrString, int numString)
  */
 void freeInteger(int * arrInteger, int numInteger)
 {
+  free(arrInteger);
 }
 
 /* ----------------------------------------------- */
@@ -194,6 +203,7 @@ void freeInteger(int * arrInteger, int numInteger)
  */
 void freeString(char * * arrString, int numString)
 {
+  free(arrString);
 }
 
 /* ----------------------------------------------- */
@@ -216,6 +226,7 @@ void freeString(char * * arrString, int numString)
 
 int saveInteger(char * filename, int * arrInteger, int numInteger)
 {
+
 }
 
 /* ----------------------------------------------- */
@@ -250,6 +261,7 @@ int saveString(char * filename, char * * arrString, int numString)
 
 void sortInteger(int * arrInteger, int numInteger)
 {
+
 }
 
 
@@ -266,6 +278,7 @@ void sortInteger(int * arrInteger, int numInteger)
 
 void sortString(char * * arrString, int numString)
 {
+
 }
 
 
