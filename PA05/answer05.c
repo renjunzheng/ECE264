@@ -160,6 +160,33 @@ int * readInteger(char * filename, int * numInteger)
 
 char * * readString(char * filename, int * numString)
 {
+  FILE * fptr;
+  int val = 0;
+  int num = 0;
+
+  fptr = fopen(filename, "r");
+  if(fptr == NULL)
+    {
+      return NULL;
+    }
+  while(fgets(fptr, "%d", &val) == 1)
+    {
+      num++;
+    }
+
+  *numInteger = num;
+
+  char ** arr = malloc(num * sizeof(char)); // not sure
+  int index = 0;
+  fseek(fptr, 0, SEEK_SET);
+  while(fgets(fptr,"%d", &val) == 1)
+    {
+      
+      index++;
+    }
+  fclose(fptr);
+
+  return arr;
 }
 
 /* ----------------------------------------------- */
@@ -172,7 +199,7 @@ void printInteger(int * arrInteger, int numInteger)
   
   for(i = 0; i < numInteger; i++)
     {
-      printf("%d\n", arr[i]);
+      printf("%d\n", arrInteger[i]);
     }
 }
 
