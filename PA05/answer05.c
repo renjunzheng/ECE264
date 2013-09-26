@@ -3,6 +3,7 @@
 #include <string.h>
 #include "pa05.h"
 #define MAXIMUM_LENGTH 80
+void printHelp(char *);
 
 /*
  * Read a file of integers.
@@ -161,7 +162,7 @@ int * readInteger(char * filename, int * numInteger)
 char * * readString(char * filename, int * numString)
 {
   FILE * fptr;
-  int val = 0;
+  char buf[MAXLENGTH];
   int num = 0;
 
   fptr = fopen(filename, "r");
@@ -169,24 +170,25 @@ char * * readString(char * filename, int * numString)
     {
       return NULL;
     }
-  while(fgets(fptr, "%d", &val) == 1)
+  while(fgets(buf, MAXLEGNTH, fptr) != NULL)
     {
       num++;
     }
 
   *numInteger = num;
 
-  char ** arr = malloc(num * sizeof(char)); // not sure
+  char ** strArr = malloc(num * sizeof(char*));
   int index = 0;
   fseek(fptr, 0, SEEK_SET);
-  while(fgets(fptr,"%d", &val) == 1)
+  while(fgets(buf, MAXLENGTH, fptr) != NULL)
     {
-      
+      strArr[index] = malloc(sizeof(char) * (strlen(buf) + 1));
+      strcpy(strArr[ind], buf);
       index++;
     }
   fclose(fptr);
 
-  return arr;
+  return strArr;
 }
 
 /* ----------------------------------------------- */
@@ -211,8 +213,24 @@ void printInteger(int * arrInteger, int numInteger)
  */
 void printString(char * * arrString, int numString)
 {
+  int i;
+  
+  for(i = 0; i < numString; i++)
+    {
+      printHelp(arrString[i]);
+    }
 }
 
+void(char * arrString)
+{
+  int i = 0;
+  
+  while(arrString[i] != '\0')
+    {
+      printf("%c", arrString[i]);
+    }
+  printf("\n");
+}
 /* ----------------------------------------------- */
 /*
  * release the memory occupied by the array of integers
@@ -230,6 +248,11 @@ void freeInteger(int * arrInteger, int numInteger)
  */
 void freeString(char * * arrString, int numString)
 {
+  int ind;
+  for(ind = 0; ind < numStringl; ind++)
+    {
+      free(arrString[ind]);
+    }
   free(arrString);
 }
 
@@ -288,9 +311,22 @@ int saveString(char * filename, char * * arrString, int numString)
 
 void sortInteger(int * arrInteger, int numInteger)
 {
-
+  qsort(arrInger, numInteger, sizeof(int), compInt);
 }
 
+int compInt(const void * P1, const void * P2)
+{
+  int * intP1 = (int *)P1;
+  int * intP2 = (int *)P2;
+  int intV1 = * intP1;
+  int intV2 = * intP2;
+
+  if(intV1 < intV2)
+    return -1;
+  if(intV1 == intV2)
+    return 0;
+  return 1;
+}
 
 /* ----------------------------------------------- */
 /*
