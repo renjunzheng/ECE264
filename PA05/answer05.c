@@ -3,7 +3,8 @@
 #include <string.h>
 #include "pa05.h"
 #define MAXIMUM_LENGTH 80
-void printHelp(char *);
+int compInt(const void *, const void *);
+int compChar(const void *, const void *);
 
 /*
  * Read a file of integers.
@@ -217,20 +218,10 @@ void printString(char * * arrString, int numString)
   
   for(i = 0; i < numString; i++)
     {
-      printHelp(arrString[i]);
+      printf("%s\n", arrString[i];
     }
 }
 
-void(char * arrString)
-{
-  int i = 0;
-  
-  while(arrString[i] != '\0')
-    {
-      printf("%c", arrString[i]);
-    }
-  printf("\n");
-}
 /* ----------------------------------------------- */
 /*
  * release the memory occupied by the array of integers
@@ -311,7 +302,7 @@ int saveString(char * filename, char * * arrString, int numString)
 
 void sortInteger(int * arrInteger, int numInteger)
 {
-  qsort(arrInger, numInteger, sizeof(int), compInt);
+  qsort(arrInteger, numInteger, sizeof(int), compInt);
 }
 
 int compInt(const void * P1, const void * P2)
@@ -341,7 +332,16 @@ int compInt(const void * P1, const void * P2)
 
 void sortString(char * * arrString, int numString)
 {
-
+  qsort(arrString, numString, sizeof(char *), compStr);
 }
 
+int compStr(const void * P1, const void * P2)
+{
+  char * * strP1 = (char * *)P1;
+  char * * strP2 = (char * *)P2;
+  char * str1 = * strP1;
+  char * str2 = * strP2;
+
+  return(strcmp(strP1, strP2));
+}
 
