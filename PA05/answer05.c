@@ -4,7 +4,7 @@
 #include "pa05.h"
 #define MAXIMUM_LENGTH 80
 int compInt(const void *, const void *);
-int compChar(const void *, const void *);
+int compStr(const void *, const void *);
 
 /*
  * Read a file of integers.
@@ -68,6 +68,7 @@ int * readInteger(char * filename, int * numInteger)
   FILE * fptr;
   int val = 0;
   int num = 0;
+  int index = 0;
 
   fptr = fopen(filename, "r");
   if(fptr == NULL)
@@ -82,7 +83,7 @@ int * readInteger(char * filename, int * numInteger)
   *numInteger = num;
 
   int * arr = malloc(num * sizeof(int));
-  int index = 0;
+  
   fseek(fptr, 0, SEEK_SET);
   while(fscanf(fptr,"%d", &val) == 1)
     {
@@ -171,12 +172,12 @@ char * * readString(char * filename, int * numString)
     {
       return NULL;
     }
-  while(fgets(buf, MAXIMUM_LEGNTH, fptr) != NULL)
+  while(fgets(buf, MAXIMUM_LENGTH, fptr) != NULL)
     {
       num++;
     }
 
-  *numInteger = num;
+  *numString = num;
 
   char ** strArr = malloc(num * sizeof(char*));
   int index = 0;
@@ -184,7 +185,7 @@ char * * readString(char * filename, int * numString)
   while(fgets(buf, MAXIMUM_LENGTH, fptr) != NULL)
     {
       strArr[index] = malloc(sizeof(char) * (strlen(buf) + 1));
-      strcpy(strArr[ind], buf);
+      strcpy(strArr[index], buf);
       index++;
     }
   fclose(fptr);
@@ -218,7 +219,7 @@ void printString(char * * arrString, int numString)
   
   for(i = 0; i < numString; i++)
     {
-      printf("%s\n", arrString[i];
+      printf("%s\n", arrString[i]);
     }
 }
 
@@ -267,7 +268,8 @@ void freeString(char * * arrString, int numString)
 
 int saveInteger(char * filename, int * arrInteger, int numInteger)
 {
-  for(int i = 0; i <= numInteger; i++)
+  int i;
+  for(i = 0; i <= numInteger; i++)
     {
       fprintf(filename,"%d\n",arrInteger[i]);
     }
@@ -296,7 +298,8 @@ int saveInteger(char * filename, int * arrInteger, int numInteger)
 
 int saveString(char * filename, char * * arrString, int numString)
 {
-  for(int i = 0; i <= numString; i++)
+  int i;
+  for(i = 0; i <= numString; i++)
     {
       fprintf(filename,"%s\n", arrString[i]);
     }
@@ -355,6 +358,6 @@ int compStr(const void * P1, const void * P2)
   char * str1 = * strP1;
   char * str2 = * strP2;
 
-  return(strcmp(strP1, strP2));
+  return(strcmp(str1, str2));
 }
 
