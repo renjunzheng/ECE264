@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "pa05.h"
-#define MAXIMUM_LENGTH 80
+#define MAXIMUM_LENGTH 180
 int compInt(const void *, const void *);
 int compStr(const void *, const void *);
 
@@ -68,7 +68,7 @@ int * readInteger(char * filename, int * numInteger)
   FILE * fptr;
   int val = 0;
   int num = 0;
-  int index = 0;
+  int i = 0;
 
   fptr = fopen(filename, "r");
   if(fptr == NULL)
@@ -87,8 +87,8 @@ int * readInteger(char * filename, int * numInteger)
   fseek(fptr, 0, SEEK_SET);
   while(fscanf(fptr,"%d", &val) == 1)
     {
-      arr[index] = val;
-      index++;
+      arr[i] = val;
+      i++;
     }
   fclose(fptr);
 
@@ -180,13 +180,13 @@ char * * readString(char * filename, int * numString)
   *numString = num;
 
   char ** strArr = malloc(num * sizeof(char*));
-  int index = 0;
+  int i = 0;
   fseek(fptr, 0, SEEK_SET);
   while(fgets(buf, MAXIMUM_LENGTH, fptr) != NULL)
     {
-      strArr[index] = malloc(sizeof(char) * (strlen(buf) + 1));
-      strcpy(strArr[index], buf);
-      index++;
+      strArr[i] = malloc(sizeof(char) * (strlen(buf) + 1));
+      strcpy(strArr[i], buf);
+      i++;
     }
   fclose(fptr);
 
@@ -268,11 +268,14 @@ void freeString(char * * arrString, int numString)
 
 int saveInteger(char * filename, int * arrInteger, int numInteger)
 {
+  FILE * fout;
+  fout = fopen(filename, "w");
   int i;
-  for(i = 0; i <= numInteger; i++)
+  for(i = 0; i < numInteger; i++)
     {
-      fprintf(filename,"%d\n",arrInteger[i]);
+      fprintf(fout,"%d\n",arrInteger[i]);
     }
+  fclose(fout);
   if(filename == NULL)
     return 0;
   return 1;
@@ -299,10 +302,13 @@ int saveInteger(char * filename, int * arrInteger, int numInteger)
 int saveString(char * filename, char * * arrString, int numString)
 {
   int i;
-  for(i = 0; i <= numString; i++)
+  FILE * fout;
+  fout = fopen(filename, "w");
+  for(i = 0; i < numString; i++)
     {
-      fprintf(filename,"%s\n", arrString[i]);
+      fprintf(fout,"%s\n", arrString[i]);
     }
+  fclose(fout);
   if(filename == NULL)
     return 0;
   return 1;
@@ -358,6 +364,8 @@ int compStr(const void * P1, const void * P2)
   char * str1 = * strP1;
   char * str2 = * strP2;
 
-  return(strcmp(str1, str2));
+  int i;
+  i = strcmp(* str1, * str2);
+  return(i);
 }
 
