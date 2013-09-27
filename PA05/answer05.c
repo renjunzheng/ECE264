@@ -219,7 +219,10 @@ void printString(char * * arrString, int numString)
   
   for(i = 0; i < numString; i++)
     {
-      printf("%s\n", arrString[i]);
+      printf("%s",arrString[i]);
+      int len = strlen(arrString[i]);
+      if(len == 0 || arrString[i][len-1] != '\n')
+      	printf("\n");
     }
 }
 
@@ -359,13 +362,13 @@ void sortString(char * * arrString, int numString)
 
 int compStr(const void * P1, const void * P2)
 {
-  char * * strP1 = (char * *)P1;
+  /*  char * * strP1 = (char * *)P1;
   char * * strP2 = (char * *)P2;
   char * str1 = * strP1;
   char * str2 = * strP2;
-
+  
   int i;
-  i = strcmp(* str1, * str2);
-  return(i);
+  i = strcmp(str1, str2);*/
+  return strcmp(* (char * const *) P1, * (char * const *) P2);//strcmp(* (char * const *) * P1, * (char * const *) * P2);
 }
 
