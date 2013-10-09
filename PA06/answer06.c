@@ -172,7 +172,35 @@
  */
 struct Image * loadImage(const char* filename)
 {
-    return NULL;
+  FILE * fptr;
+  int val = 0;
+  int num = 0;
+  int i = 0;
+
+  fptr = fopen(filename, "r");
+  if(fptr == NULL)
+    {
+      return NULL;
+    }
+  while(fscanf(fptr, "%d", &val) == 1)
+    {
+      num++;
+    }
+
+  *numInteger = num;
+
+    int * arr = malloc(num * sizeof(int));
+
+    fseek(fptr, 0, SEEK_SET);
+    while(fscanf(fptr,"%d", &val) == 1)
+      {
+	arr[i] = val;
+	i++;
+      }
+    fclose(fptr);
+
+    return arr;
+  return NULL;
 }
 
 
