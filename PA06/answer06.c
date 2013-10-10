@@ -173,34 +173,44 @@
 struct Image * loadImage(const char* filename)
 {
   FILE * fptr;
-  int val = 0;
-  int num = 0;
-  int i = 0;
-
-  fptr = fopen(filename, "r");
+ 
+  fptr = fopen(filename, "rb");
   if(fptr == NULL)
     {
+      printf("Error: failed to open file '%s'\n", filename);
       return NULL;
     }
-  while(fscanf(fptr, "%d", &val) == 1)
+
+  struct ImageHeader header;
+  if(fread(&header,sizeof(struct ImageHeader),1,fptr) != 1)
     {
-      num++;
+      printf("Failed to read 16 bytes header\n");
+      return NULL;
+    }
+  printf("Magic bits = %x\n", header.magic_bits);
+  printf("Width = %x\n", header.width);
+  printf("Height= %x\n", header.height);
+  printf("Commentlen = %x\n", header.comment_len);
+
+  struct Image * image = malloc(sizeof(struct Image));
+
+  image->width = header.width;
+  image->height = header.height;
+
+
+
+  image->comment = malloc(header.comment_len * sizeof(char));
+  if(image->comment == NULL)
+    {
+      printf("Malloc failed to allocate %d bytes for image->comment\n", header.comment_len);
+      return NULL;
     }
 
-  *numInteger = num;
 
-    int * arr = malloc(num * sizeof(int));
+  //call fread again, allocate memory for it
 
-    fseek(fptr, 0, SEEK_SET);
-    while(fscanf(fptr,"%d", &val) == 1)
-      {
-	arr[i] = val;
-	i++;
-      }
-    fclose(fptr);
+  return image;
 
-    return arr;
-  return NULL;
 }
 
 

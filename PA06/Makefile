@@ -1,10 +1,10 @@
 
-GCC = gcc #declaration
+GCC = gcc
 CFLAGS = -g -Wall -Wshadow
 LIBS =
 SOURCES = answer06.c pa06.c
 TARGET = pa06
-TESTN := $(shell seq 0 12)#what is this 12? number of testcase   TESTN 是array
+TESTN := $(shell seq 0 12)
 
 # -------------------------------------------------------------
 
@@ -20,7 +20,7 @@ OBJS = $(patsubst %.c,$(OBJF)/%.o,$(SOURCES))
 
 all: | build testall
 
-testall: | $(TESTS)#要不要加？
+testall: | $(TESTS)
 
 build: $(TARGET)
 
@@ -42,7 +42,7 @@ help:
 	@echo "   make clean      Remove all temporary files"
 	@echo "   make help       Print this message"
 	@echo
-	@echo "   There are 6 testcases. (i.e., 0 through 109.) You can run an "
+	@echo "   There are 14 testcases. (i.e., 0 through 13.) You can run an "
 	@echo "   individual testcase as follows:"
 	@echo
 	@echo "   make test0      Run the zeroeth testcase"
