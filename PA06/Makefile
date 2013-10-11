@@ -1,6 +1,6 @@
 GCC = gcc
 CFLAGS = -g -Wall -Wshadow
-VALGRIND = valgrind --tool=memcheck --leak-check=full --verbose
+
 
 pa06: pa06.o answer06.o
 	$(GCC) $(CFLAGS) pa06.o answer06.o -o pa06
@@ -18,7 +18,7 @@ test: test1 test2 test3 test4 test5
 test1: pa06
 	./pa06 images/01-unnormalized-smile.ee264 outputs/output1
 	diff outputs/output1 expected/01-smile.ppm
-#	$(VALGRIND) --log-file=outputs/output1 ./pa06 images/01-unnormalized-smile.ee264 outputs/output1
+	valgrind --tool=memcheck --leak-check=full --verbose --log-file=valgrindlog1 ./pa06 images/01-unnormalized-smile.ee264 outputs/output1
 
 test2: pa06
 	./pa06 images/02-unnormalized-cat-chess.ee264 outputs/output2
