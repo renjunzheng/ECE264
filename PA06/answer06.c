@@ -189,20 +189,24 @@ struct Image * loadImage(const char* filename)
   if(retval != 1)
     {
       printf("Failed to read 16 bytes header\n");
+      fclose(fptr);
       return NULL;
     }
   
   //3,4check if the magic-bits matches, width and height is sane
   if(header.magic_bits != ECE264_IMAGE_MAGIC_BITS)
     {
+      fclose(fptr);
       return NULL;
     }
   if(header.width <= 0)
     {
+      fclose(fptr);
       return NULL;
     }
   if(header.height <= 0)
     {
+      fclose(fptr);
       return NULL;
     }
 
@@ -210,7 +214,6 @@ struct Image * loadImage(const char* filename)
    
   if(image == NULL)
    {
-     free(image);
      fclose(fptr);
      return NULL;
    }
@@ -222,28 +225,38 @@ struct Image * loadImage(const char* filename)
   if(image->comment == NULL)
     {
       printf("Malloc failed to allocate %d bytes for image->comment\n", header.comment_len);
-      free(image->comment);
-      free(image);
+      freeImage(image);
       fclose(fptr);
       return NULL;
     }
-  
+
   //7 8 9read the string from disk and malloc memory and read the pixel data   
   retval = fread(image->comment, sizeof(char),header.comment_len,fptr);
   if(retval != header.comment_len)
     {
-      free(image->comment);
-      free(image);
+      freeImage(image);
       fclose(fptr);
       return NULL;
     }
+
+  if(image->comment[header.comment_len - 1] != '\0')
+    {
+      freeImage(image);
+      fclose(fptr);
+      return NULL;
+    }
+
   image->data = malloc(sizeof(uint8_t) * (header.width) * (header.height));
+  if(image->data == NULL)
+    {
+      freeImage(image);
+      fclose(fptr);
+      return NULL;
+    }
   retval = fread(image->data,sizeof(uint8_t),header.width * header.height,fptr);
   if(retval != header.width * header.height)
     {
-      free(image->comment);
-      free(image->data);
-      free(image);
+      freeImage(image);
       fclose(fptr);
       return NULL;
     }
@@ -252,9 +265,7 @@ struct Image * loadImage(const char* filename)
   retval = fread(image->data,sizeof(uint8_t),1,fptr);
   if(retval == 1)
     {
-      free(image->comment);
-      free(image->data);
-      free(image);
+      freeImage(image);
       fclose(fptr);
       return NULL;
     }
@@ -277,8 +288,11 @@ struct Image * loadImage(const char* filename)
  */
 void freeImage(struct Image * image)
 {
-  free(image->data);
-  free(image->comment);
+  if(image != NULL)
+    {
+      free(image->data);
+      free(image->comment);
+    }
   free(image);
 }
 
