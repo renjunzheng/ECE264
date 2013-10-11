@@ -228,7 +228,8 @@ struct Image * loadImage(const char* filename)
     {
       return NULL;
     }
-  
+  free(header);
+  fclose(fptr);
   return image;
 }
 
@@ -245,7 +246,8 @@ struct Image * loadImage(const char* filename)
  */
 void freeImage(struct Image * image)
 {
-  
+  free(image->data);
+  free(image);
 }
 
 /*
