@@ -173,44 +173,63 @@
 struct Image * loadImage(const char* filename)
 {
   FILE * fptr;
- 
-  fptr = fopen(filename, "rb");
+  
+  fptr = fopen(filename, "r");
   if(fptr == NULL)
     {
       printf("Error: failed to open file '%s'\n", filename);
       return NULL;
     }
-
+  
+  //2 read and check the 16 bytes
   struct ImageHeader header;
-  if(fread(&header,sizeof(struct ImageHeader),1,fptr) != 1)
+  int retval = fread(&header,sizeof(struct ImageHeader),1,fptr);
+  if(retval != 1)
     {
       printf("Failed to read 16 bytes header\n");
       return NULL;
     }
-  printf("Magic bits = %x\n", header.magic_bits);
-  printf("Width = %x\n", header.width);
-  printf("Height= %x\n", header.height);
-  printf("Commentlen = %x\n", header.comment_len);
-
+  
+  //3,4check if the magic-bits matches, width and height is sane
+  if((header.magic_bits != ECE264_IMAGE_MAGIC_BITS) || (header.width <= 0) || (header.height <= 0))
+    {
+      return NULL;
+    }
+  
   struct Image * image = malloc(sizeof(struct Image));
-
+  
   image->width = header.width;
   image->height = header.height;
-
-
-
+    
+  //5,6malloc and check malloc returned      
   image->comment = malloc(header.comment_len * sizeof(char));
   if(image->comment == NULL)
     {
       printf("Malloc failed to allocate %d bytes for image->comment\n", header.comment_len);
       return NULL;
     }
-
-
-  //call fread again, allocate memory for it
-
+  
+  //7 8 9read the string from disk and malloc memory and read the pixel data   
+  retval = fread(image->comment, sizeof(char),header.comment_len,fptr);
+  if(retval != header.comment_len)
+    {
+      return NULL;
+    }
+  image->data = malloc(sizeof(unit8_t) * header.width * header.height);
+  retval = fread(image->data,sizeof(unit8_t),header.width * header.height,fptr);
+  if(retval != header.width * header.height)
+    {
+      return NULL;
+    }
+  
+  //10try to read one more pixel
+  retval = fread(image->data,sizeof(unit8_t),header.width * header.height + 1,fptr);
+  if(retval != header.width * header.height)
+    {
+      return NULL;
+    }
+  
   return image;
-
 }
 
 
@@ -226,7 +245,7 @@ struct Image * loadImage(const char* filename)
  */
 void freeImage(struct Image * image)
 {
-
+  
 }
 
 /*
@@ -255,7 +274,21 @@ void freeImage(struct Image * image)
  */
 void linearNormalization(struct Image * image)
 {
-
+  int max;
+  int min;
+  int i;
+  for(i = 0; i < image->width * image->height; i++)
+    {
+      if(image->data[i] < image->data[i + 1])
+	{
+	  max = image->data[i + 1];
+	  min = image->data[i];
+	}
+    }
+  for(i = 0; i < image->width * image->height; i++)
+    {
+      image->data[i] = (image->data[i] - min) * 255.0 / (max - min);
+    }
 }
 
 

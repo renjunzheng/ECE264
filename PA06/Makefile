@@ -4,7 +4,7 @@ CFLAGS = -g -Wall -Wshadow
 LIBS =
 SOURCES = answer06.c pa06.c
 TARGET = pa06
-TESTN := $(shell seq 0 12)
+TESTN := $(shell seq 0 6)
 
 # -------------------------------------------------------------
 
@@ -42,7 +42,7 @@ help:
 	@echo "   make clean      Remove all temporary files"
 	@echo "   make help       Print this message"
 	@echo
-	@echo "   There are 14 testcases. (i.e., 0 through 13.) You can run an "
+	@echo "   There are 6 testcases. (i.e., 0 through 109.) You can run an "
 	@echo "   individual testcase as follows:"
 	@echo
 	@echo "   make test0      Run the zeroeth testcase"
