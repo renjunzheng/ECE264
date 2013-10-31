@@ -50,7 +50,7 @@ SparseNode * SparseArray_insert ( SparseNode * array, int index, int value )
 {
   if(value == 0)
     {
-      return array;
+      return NULL;
     }
   if(array == NULL)
     {
@@ -114,7 +114,7 @@ SparseNode *SparseArray_build(int * indicies, int * values, int length)
  */
 void SparseArray_destroy ( SparseNode * array )
 {
-
+x
 }
 
 /* Retrieve the smallest index in the sparse array tree.
@@ -155,7 +155,6 @@ int SparseArray_getMax ( SparseNode * array )
   do
     {
       array = array -> right;
-      biggest = array -> index;
     }while(array != NULL);
 
   return biggest;
