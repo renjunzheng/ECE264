@@ -46,7 +46,7 @@ SparseNode * SparseNode_create(int index, int value)
  * values than the current one go left, larger ones go right).
  */
 
-SparseNode * SparseArray_insert ( SparseNode * array, int index, int value )
+SparseNode * SparseArray_insert(SparseNode * array, int index, int value )
 {
   if(value == 0)
     {
@@ -112,9 +112,14 @@ SparseNode *SparseArray_build(int * indicies, int * values, int length)
  * traversing the binary tree in postorder. Use the
  * SparseNode_destroy () function to destroy each node by itself.
  */
-void SparseArray_destroy ( SparseNode * array )
+void SparseArray_destroy (SparseNode * array )
 {
-
+  if(array == NULL)
+    {
+      return;
+    }
+  SparseArray_destroy(array -> left);
+  SparseArray_destroy(array -> right);
 }
 
 /* Retrieve the smallest index in the sparse array tree.
@@ -222,7 +227,44 @@ SparseNode * SparseArray_getNode(SparseNode * array, int index )
 */
 SparseNode * SparseArray_remove ( SparseNode * array, int index )
 {
-  return array ;
+  if(array == NULL)
+    {
+      return NULL;
+    }
+  if(array -> index > index)
+    {
+      array -> left = SparseArray_remove(array -> left, index);
+      return array;
+    }
+  if(array -> index < index)
+    {
+      array -> right = SparseArray_remove(array -> right, index);
+      return array;
+    }
+  if((array -> left == NULL) && (array -> right == NULL))
+    {
+      free(array);
+      return NULL;
+    }
+  if(array -> left == NULL)
+    {
+      SparseNode * temp = array -> right;
+      free(array);
+      return temp;
+    }
+  if(array -> right == NULL)
+    {
+      SparseNode * temp = array -> left;
+      free(array);
+      return temp;
+    }
+  SparseNode * successor_array = array -> right;
+  int successor = SparseArray_getMin(successor_array);
+  array_right = SparseArray_getNode(successor_array, successor);
+  array -> index = successor_array -> index;
+  successor_array -> index = index;
+  array -> right = SparseArray_remove(array -> right, index);
+  return array;
 }
 
 /* The function makes a copy of the input sparse array tree
@@ -239,8 +281,14 @@ SparseNode * SparseArray_remove ( SparseNode * array, int index )
 
 SparseNode * SparseArray_copy(SparseNode * array)
 {
-
-  return NULL;
+  if(array == NULL)
+    return NULL;
+  SparseNode * node = malloc(sizeof(SparseNode));
+  node -> index = array -> index;
+  node -> value = array -> value;
+  node -> left = SparseArray_copy(array -> left);
+  node -> right = SparseArray_copy(array -> right);
+  return node;
 }
 
 /* Merge array_1 and array_2, and return the result array. 
@@ -270,7 +318,7 @@ SparseNode * SparseArray_copy(SparseNode * array)
 
 SparseNode * SparseArray_merge(SparseNode * array_1, SparseNode * array_2)
 {
-
+  
   return NULL;
 
 }
