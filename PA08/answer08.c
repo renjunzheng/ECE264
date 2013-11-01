@@ -1,7 +1,8 @@
 #include "pa08.h"
 #include <stdio.h>
 #include <stdlib.h>
-
+SparseNode * SparseArray_postorder(SparseNode *,SparseNode *);
+SparseNode * SparseArray_help(SparseNode *, int,int);
 /* 
  * Create a single instance of a sparse array tree node with a specific
  * index and value. This Sparse array will be implemented by a binary tree.
@@ -120,6 +121,7 @@ void SparseArray_destroy (SparseNode * array )
     }
   SparseArray_destroy(array -> left);
   SparseArray_destroy(array -> right);
+  free(array);
 }
 
 /* Retrieve the smallest index in the sparse array tree.
@@ -260,7 +262,7 @@ SparseNode * SparseArray_remove ( SparseNode * array, int index )
     }
   SparseNode * successor_array = array -> right;
   int successor = SparseArray_getMin(successor_array);
-  array_right = SparseArray_getNode(successor_array, successor);
+  successor_array = SparseArray_getNode(successor_array, successor);
   array -> index = successor_array -> index;
   successor_array -> index = index;
   array -> right = SparseArray_remove(array -> right, index);
@@ -318,7 +320,52 @@ SparseNode * SparseArray_copy(SparseNode * array)
 
 SparseNode * SparseArray_merge(SparseNode * array_1, SparseNode * array_2)
 {
+  SparseNode * node = SparseArray_copy(array_1);
+  if(array_2 == NULL)
+    {
+      return node;
+    }
   
-  return NULL;
+  node = SparseArray_postorder(node, array_2);
+  return node;
+}
 
+SparseNode * SparseArray_postorder(SparseNode * node, SparseNode * temp)
+{
+  if(temp == NULL);
+  {
+    return NULL;
+  }
+  temp = SparseArray_postorder(node, temp -> left);
+  temp = SparseArray_postorder(node, temp -> right);  
+  node = SparseArray_help(node, temp -> index, temp -> value);
+  return node;
+}
+
+SparseNode * SparseArray_help(SparseNode * array, int index, int value )
+{
+  if(value == 0)
+    {
+      return array;
+    }
+  if(array == NULL)
+    {
+      return SparseNode_create(index, value);
+    }
+  if(array -> index == index)
+    {
+      array -> value += value;
+      if(array -> value == 0)
+	{
+	  SparseArray_remove(array, array -> index);
+	}
+      return array;
+    }
+  if(array -> index > index)
+    {
+      array -> left = SparseArray_help(array -> left, index, value);
+      return array;
+    }
+  array -> right = SparseArray_help(array -> right, index, value);
+  return array;
 }
