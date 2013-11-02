@@ -50,7 +50,6 @@ SparseNode * SparseNode_create(int index, int value)
 
 SparseNode * SparseArray_insert(SparseNode * array, int index, int value)
 {
-  printf("inserting %d, %d\n", index, value);
   if(value == 0)
     {
       return array;
@@ -343,7 +342,6 @@ SparseNode * SparseArray_merge2(SparseNode * node, SparseNode * temp)
 
 SparseNode * SparseArray_help(SparseNode * array, int index, int value)
 {
- printf("inserting2%d, %d\n", index, value);
   if(value == 0)
     {
       return array;
