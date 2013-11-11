@@ -15,6 +15,6 @@ typedef struct _stack {
 HuffNode * HuffNode_create(int value);
 void HuffNode_destroy(HuffNode * array);
 void HuffNode_print(File * fptr, HuffNode * array);
-
+int isLeaf(HuffNode * tn);
 #endif
 
