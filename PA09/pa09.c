@@ -23,8 +23,10 @@ int main ( int argc , char ** argv )
     }
   
   //Call a function to create Huffman Tree, return the head of the tree
+
+
   HuffNode * array = NULL;
-  array = HuffNode_create(value);// what is this value?
+  array = HuffNode_build(value,create);// what is this value?
 
   //Open an output file, use your own modified function postOrderPrint to print the traverse of the tree
   fptr = fopen(argv[2], "w");

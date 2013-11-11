@@ -12,6 +12,9 @@ typedef struct _stack {
     HuffNode * node;
 } Stack;
 
+
+
+HuffNode * HuffNode_build(int value, HuffNode * array);
 HuffNode * HuffNode_create(int value);
 void HuffNode_destroy(HuffNode * array);
 void HuffNode_print(File * fptr, HuffNode * array);

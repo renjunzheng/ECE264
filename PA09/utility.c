@@ -26,16 +26,25 @@ int isLeaf(HuffNode * tn)
 
 HuffNode * HuffNode_create(int value)
 {
-
+  HuffNode * array = NULL;
+  array = malloc(sizeof(Huffnode));
+  while()
+    {
+      
+    }
 }
 
 
 
 
 //Write functions to perform push and pop to maintain the Stack
-
-
-
+Stack * Stack_push(Stack * st, HuffNode * t)
+{
+  Stack * stnew = malloc(sizeof(Stack));
+  stnew -> node = t;
+  stnew -> next = st;
+  return stnew;
+}
 
 /*use your own modified function postOrderPrint to print the traverse 
 of the tree
