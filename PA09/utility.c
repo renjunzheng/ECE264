@@ -11,12 +11,15 @@
 they are different, so your create Huffman Tree should be able
 to handle both cases)
 */
-int isLeaf(HuffNode * tn)
+int isLeaf(HuffNode * array)
 {
-  if (tn == NULL) { return 1; }
-  if ((tn -> left) == NULL)
+  if(array == NULL)
     {
-      if ((tn -> right) == NULL)
+      return 1;
+    }
+  if(array -> left == NULL)
+    {
+      if(array -> right == NULL)
 	{
 	  return 1;
 	}
@@ -26,24 +29,76 @@ int isLeaf(HuffNode * tn)
 
 HuffNode * HuffNode_create(int value)
 {
-  HuffNode * array = NULL;
-  array = malloc(sizeof(Huffnode));
-  while()
-    {
-      
-    }
+  HuffNode * array = malloc(sizeof(HuffNode));
+  array -> value = value;
+  array -> left = NULL;
+  array -> righ = NULL;
+  return array;
 }
 
-
-
+Stack * Stack_create(HuffNode * array)
+{
+  Stack * st;
+  st = malloc(sizeof(Stack));
+  st -> node = array;
+  st -> next = NULL;
+  return st;
+}
 
 //Write functions to perform push and pop to maintain the Stack
-Stack * Stack_push(Stack * st, HuffNode * t)
+Stack * Stack_push(Stack * st, HuffNode * array)
 {
   Stack * stnew = malloc(sizeof(Stack));
-  stnew -> node = t;
+  stnew -> node = array;
   stnew -> next = st;
   return stnew;
+}//need to check
+
+Stack * Stack_pop(Stack * st)
+{
+  if (st == NULL)
+    {
+      return NULL;
+    }
+  Stack * next = st -> next
+  free (st);
+  return next;
+}
+
+Stack * Stack_build(File * fptr);
+{
+  Stack * st = NULL; // create an empty stack
+  int done = 0;
+  while(done == 0)//check if the tree is build, how?
+    {
+      command = fgetc(fptr);
+      if(command == 1)
+	{
+	  int value = fgetc(fptr);
+	  HuffNode * temp = HuffNode_create(value);
+	  st = Stack_push(st, temp);
+	}
+      if (command == 0)
+	{
+	  HuffNode * A = st -> array;
+	  st = Stack_pop(st);
+	  if (st == NULL)
+	    {
+	      done = 1;
+	      return A;
+	    }
+	  else
+	    {
+	      HuffNode * B = st -> node;
+	      st = Stack_pop(st);
+	      HuffNode * parent = malloc(sizeof(HuffNode));
+	      parent -> value = ' '; // doesn't matter
+	      parent -> right = A;
+	      parent -> left = B;
+	      st = Stack_push(st, parent);
+	    }
+	}
+    }
 }
 
 /*use your own modified function postOrderPrint to print the traverse 
@@ -61,15 +116,15 @@ void HuffNode_print(File * fptr, HuffNode * array)
 
     // Visit left
     fprintf(fptr,"Left\n");
-    Huff_postOrderPrint(tree->left);
+    HuffNode_print(array -> left);
     fprintf(fptr,"Back\n");
     // Visit right
     fprintf(fptr,"Right\n");
-    Huff_postOrderPrint(tree->right);
+    HuffNode_print(array -> right);
     fprintf(fptr,"Back\n");
     // Visit node itself (only if leaf)
-    if (tree->left == NULL && tree->right == NULL)
+    if (array -> left == NULL && array -> right == NULL)
       {
-	fprintf(fptr,"Leaf: %c\n", tree->value);
+	fprintf(fptr,"Leaf: %c\n", arrat -> value);
       }
 }
