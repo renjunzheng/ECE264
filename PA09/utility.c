@@ -32,7 +32,7 @@ HuffNode * HuffNode_create(int value)
   HuffNode * array = malloc(sizeof(HuffNode));
   array -> value = value;
   array -> left = NULL;
-  array -> righ = NULL;
+  array -> right = NULL;
   return array;
 }
 
@@ -52,7 +52,7 @@ Stack * Stack_push(Stack * st, HuffNode * array)
   stnew -> node = array;
   stnew -> next = st;
   return stnew;
-}//need to check
+}
 
 Stack * Stack_pop(Stack * st)
 {
@@ -60,18 +60,18 @@ Stack * Stack_pop(Stack * st)
     {
       return NULL;
     }
-  Stack * next = st -> next
-  free (st);
+  Stack * next = st -> next;
+  free(st);
   return next;
 }
 
-Stack * Stack_build(File * fptr);
+HuffNode * HuffNode_build(FILE * fptr)
 {
   Stack * st = NULL; // create an empty stack
   int done = 0;
-  while(done == 0)//check if the tree is build, how?
+  while(done == 0)
     {
-      command = fgetc(fptr);
+      int command = fgetc(fptr);
       if(command == 1)
 	{
 	  int value = fgetc(fptr);
@@ -80,7 +80,7 @@ Stack * Stack_build(File * fptr);
 	}
       if (command == 0)
 	{
-	  HuffNode * A = st -> array;
+	  HuffNode * A = st -> node;
 	  st = Stack_pop(st);
 	  if (st == NULL)
 	    {
@@ -92,19 +92,20 @@ Stack * Stack_build(File * fptr);
 	      HuffNode * B = st -> node;
 	      st = Stack_pop(st);
 	      HuffNode * parent = malloc(sizeof(HuffNode));
-	      parent -> value = ' '; // doesn't matter
+	      parent -> value = 0; // doesn't matter
 	      parent -> right = A;
 	      parent -> left = B;
 	      st = Stack_push(st, parent);
 	    }
 	}
     }
+  return NULL;
 }
 
 /*use your own modified function postOrderPrint to print the traverse 
 of the tree
  */
-void HuffNode_print(File * fptr, HuffNode * array)
+void HuffNode_print(FILE * fptr, HuffNode * array)
 {
   // Base case: empty subtree
     if(array == NULL)
@@ -116,15 +117,26 @@ void HuffNode_print(File * fptr, HuffNode * array)
 
     // Visit left
     fprintf(fptr,"Left\n");
-    HuffNode_print(array -> left);
+    HuffNode_print(fptr,array -> left);
     fprintf(fptr,"Back\n");
     // Visit right
     fprintf(fptr,"Right\n");
-    HuffNode_print(array -> right);
+    HuffNode_print(fptr,array -> right);
     fprintf(fptr,"Back\n");
     // Visit node itself (only if leaf)
     if (array -> left == NULL && array -> right == NULL)
       {
-	fprintf(fptr,"Leaf: %c\n", arrat -> value);
+	fprintf(fptr,"Leaf: %c\n", array -> value);
       }
+}
+
+void HuffNode_destroy(HuffNode * array)
+{
+  if(array == NULL)
+    {
+      return;
+    }
+  HuffNode_destroy(array -> left);
+  HuffNode_destroy(array -> right);
+  free(array);
 }

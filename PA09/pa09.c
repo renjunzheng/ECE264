@@ -4,8 +4,6 @@
 
 int main ( int argc , char ** argv )
 {
-  int i; //index
-
   //Check argc, print error message if the number of arguments are not correct
   if (argc != 3)
     {
@@ -23,8 +21,8 @@ int main ( int argc , char ** argv )
     }
   
   //Call a function to create Huffman Tree, return the head of the tree
-  Stack * array = NULL;
-  array = Stack_build(fptr);
+  HuffNode * array = NULL;
+  array = HuffNode_build(fptr);
 
   //Open an output file, use your own modified function postOrderPrint to print the traverse of the tree
   fptr = fopen(argv[2], "w");
