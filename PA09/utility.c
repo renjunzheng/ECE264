@@ -11,22 +11,8 @@
 they are different, so your create Huffman Tree should be able
 to handle both cases)
 */
-int isLeaf(HuffNode * array)
-{
-  if(array == NULL)
-    {
-      return 1;
-    }
-  if(array -> left == NULL)
-    {
-      if(array -> right == NULL)
-	{
-	  return 1;
-	}
-    }
-  return 0;
-}
 
+//If the input is char
 HuffNode * HuffNode_create(int value)
 {
   HuffNode * array = malloc(sizeof(HuffNode));
@@ -67,20 +53,21 @@ Stack * Stack_pop(Stack * st)
 
 HuffNode * HuffNode_build(FILE * fptr)
 {
-  Stack * st = NULL; // create an empty stack
+  Stack * st = NULL;
   int done = 0;
+  HuffNode * A = NULL;
   while(done == 0)
     {
       int command = fgetc(fptr);
-      if(command == 1)
+      if(command == '1')//ASCII value here
 	{
 	  int value = fgetc(fptr);
 	  HuffNode * temp = HuffNode_create(value);
 	  st = Stack_push(st, temp);
 	}
-      if (command == 0)
+      if (command == '0')
 	{
-	  HuffNode * A = st -> node;
+	  A = st -> node;
 	  st = Stack_pop(st);
 	  if (st == NULL)
 	    {
@@ -92,7 +79,7 @@ HuffNode * HuffNode_build(FILE * fptr)
 	      HuffNode * B = st -> node;
 	      st = Stack_pop(st);
 	      HuffNode * parent = malloc(sizeof(HuffNode));
-	      parent -> value = 0; // doesn't matter
+	      parent -> value = 0;
 	      parent -> right = A;
 	      parent -> left = B;
 	      st = Stack_push(st, parent);
@@ -101,6 +88,53 @@ HuffNode * HuffNode_build(FILE * fptr)
     }
   return NULL;
 }
+
+//if input is bit
+HuffNode * Bit_build(FILE * fptr)
+{
+  Stack * st = NULL;
+  HuffNode * A = NULL;
+  int done = 0;
+  int cmdloc = 0;
+  unsigned char onebyte = fgetc(fptr);
+  unsigned char masks[8] = {0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01};
+  while(done == 0)
+    {
+      unsigned char command = (onebyte & masks[cmdloc]);
+      if(command != 0)
+	{
+	  unsigned char upbits = onebyte << (cmdloc + 1);
+	  unsigned char anotherbyte = fgetc(fptr);
+	  unsigned char lowbits = anotherbyte >> (7 - cmdloc);
+	  unsigned char data = upbits | lowbits;
+	  HuffNode * temp = HuffNode_create(data);
+	  st = Stack_push(st, temp);
+	  cmdloc = ((cmdloc + 1) % 8);
+	}
+      else
+	{
+	  A = st -> node;
+	  st = Stack_pop(st);
+	  if (st == NULL)
+	    {
+	      done = 1;
+	      return A;
+	    }
+	  else
+	    {
+	      HuffNode * B = st -> node;
+	      st = Stack_pop(st);
+	      HuffNode * parent = malloc(sizeof(HuffNode));
+	      parent -> value = 0;
+	      parent -> right = A;
+	      parent -> left = B;
+	      st = Stack_push(st, parent);
+	    }
+	}
+    }
+  return NULL;
+}
+
 
 /*use your own modified function postOrderPrint to print the traverse 
 of the tree
@@ -140,3 +174,5 @@ void HuffNode_destroy(HuffNode * array)
   HuffNode_destroy(array -> right);
   free(array);
 }
+
+
