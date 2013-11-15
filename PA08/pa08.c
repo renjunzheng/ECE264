@@ -6,20 +6,6 @@
 #include <stdlib.h>
 #include "pa08.h"
 
-static void printtree(SparseNode * tree){
-  if (tree == NULL){
-    printf("NULL\n");
-    return;
-  }
-  printf("index: %d, value: %d\n", tree->index, tree->value);
-  printf("left\n");
-  printtree(tree->left);
-  printf("right\n");
-  printtree(tree->right);
-
-
-}
-
 int main ( int argc , char ** argv )
 {
   int i; //index
@@ -78,7 +64,7 @@ int main ( int argc , char ** argv )
   
   SparseNode * array_1 = NULL ;
   array_1 = SparseArray_build(indices_1, values_1, number_of_value_1);
-  printtree(array_1);
+
 
   /************************************
    //initialize array 2

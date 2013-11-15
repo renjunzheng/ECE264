@@ -308,8 +308,6 @@ void my_strdelete(char *s, int pos, int length)
   int len;
   
   len = my_strlen(s);
-  // if(pos < length)
-  //  {
       if(len - pos < length)
 	{
           s[pos] = '\0';

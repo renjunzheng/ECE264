@@ -81,7 +81,7 @@ int * readIntegers(const char * filename, int * numberOfIntegers)
       num++;
     }
 
-  *numberOfIntegers= num;
+  numberOfIntegers[0] = num;
 
   int * arr = malloc(num * sizeof(int));
   int index = 0;

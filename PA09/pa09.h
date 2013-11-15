@@ -21,6 +21,5 @@ HuffNode * HuffNode_create(int value);
 void HuffNode_destroy(HuffNode * array);
 void HuffNode_print(FILE * fptr, HuffNode * array);
 HuffNode * Bit_build(FILE * fptr);
-//int isLeaf(HuffNode * array);
 #endif
 

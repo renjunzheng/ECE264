@@ -1,7 +1,7 @@
 #include "pa07.h"
 #include <stdio.h>
 #include <stdlib.h>
-Node * Node_insert(Node *, int, int);
+
 /**
  * Prints a linked-list "head" into the output fie "out"
  *
@@ -14,7 +14,7 @@ void List_print(FILE * out, Node * head)
 	    fprintf(out, "%5d: %6d\n", head -> index, head -> value);
 	    head = head -> next;
 	}
- printf("\n");
+    printf("\n");
 }
 
 
@@ -35,13 +35,7 @@ void List_print(FILE * out, Node * head)
  */
 void List_destroy(Node * head)
 {
-  Node * temp;
-  while(head != NULL)
-  {
-    temp = head -> next;
-    free(head);
-    head = temp;
-  }
+
 }
 
 /**
@@ -59,12 +53,8 @@ void List_destroy(Node * head)
  */
 Node * List_create(int value, int index)
 {
-  Node * node;
-  node = malloc(sizeof(Node));
-  node -> next = NULL;
-  node -> value = value;
-  node -> index = index;
-  return node;
+
+    return NULL;
 }
 
 /**
@@ -95,16 +85,7 @@ Node * List_create(int value, int index)
  */
 Node * List_build(int * value, int * index, int length)
 {
-  Node * node = NULL;
-  int i = 0;
-  for(i = 0; i < length; i++)
-    {
-      if(value[i] != 0)
-	{
-	  node = List_insert_ascend(node, value[i], index[i]);
-	}
-    }
-    return node;
+    return NULL;
 }
 
 
@@ -129,23 +110,7 @@ Node * List_build(int * value, int * index, int length)
  */
 Node * List_insert_ascend(Node * head, int value, int index)
 {
-  if(head == NULL)
-    {
-      return List_create(value, index);
-    }
-  if((head -> index) == index)
-    {
-      return head;
-    }
-  if((head -> index) > index)
-    {
-      Node * temp = List_create(value, index);
-      temp -> next = head;
-      return temp;
-    }
-
-  head -> next = List_insert_ascend(head -> next, value, index);
-  return head;
+    return NULL;
 }
 
 
@@ -161,29 +126,7 @@ Node * List_insert_ascend(Node * head, int value, int index)
  */
 Node * List_delete(Node * head, int index)
 {
-  Node * temp = head;
-  if(temp == NULL)
-    {
-      return temp;
-    }
-  if(temp -> index == index)
-    {
-      temp = temp -> next;
-      free(head);
-      return temp;
-    }
-  Node * temp2 = temp -> next;
-  while((temp2 != NULL) && (temp2 -> index != index))
-    {
-      temp = temp -> next;
-      temp2 = temp2 -> next;
-    }
-  if(temp2 != NULL)
-    {
-      temp -> next = temp2 -> next;
-      free(temp2);
-    }
-  return head;
+    return NULL;
 }
 
 /**
@@ -205,17 +148,7 @@ Node * List_delete(Node * head, int index)
  */
 Node * List_copy(Node * head)
 {
-  if(head == NULL)
-    {
-      return head;
-    }
-  Node * temp = malloc(sizeof(Node));
-  temp -> next = NULL;
-  temp -> value = head -> value;
-  temp -> index = head -> index;
-  temp -> next = List_copy(head -> next);
-
-  return temp;
+    return NULL;
 }
 
 
@@ -241,38 +174,6 @@ Node * List_copy(Node * head)
  */
 Node * List_merge(Node * head1, Node * head2)
 {
-  Node * temp = List_copy(head1);
-  while(head2 != NULL)
-	{
-	  temp = Node_insert(temp, head2 -> value, head2 -> index);
-	  head2 = head2 -> next;
-	}
-  return temp;
+    return NULL;
 }
 
-Node * Node_insert(Node * head1, int value, int index)
-{
-  if(head1 == NULL)
-    {
-      return List_create(value, index);
-    }
-  if((head1 -> index) == index)
-    {
-      if(head1 -> value + value == 0)
-	{
-	  Node * temp = head1 -> next;
-	  free(head1);
-	  return temp;
-	}
-      head1 -> value += value;
-      return head1;
-    }
-  if(head1 -> index > index)
-    {
-      Node * temp = List_create(value, index);
-      temp -> next = head1;
-      return temp;
-    }
-  head1 -> next = Node_insert(head1 -> next, value, index);
-  return head1;
-}

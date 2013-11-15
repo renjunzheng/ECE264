@@ -109,7 +109,6 @@ HuffNode * Bit_build(FILE * fptr)
 	  unsigned char data = upbits | lowbits;
 	  HuffNode * temp = HuffNode_create(data);
 	  st = Stack_push(st, temp);
-	  cmdloc = ((cmdloc + 1) % 8);
 	}
       else
 	{
@@ -131,6 +130,7 @@ HuffNode * Bit_build(FILE * fptr)
 	      st = Stack_push(st, parent);
 	    }
 	}
+      cmdloc = (cmdloc + 1) % 8;
     }
   return NULL;
 }
