@@ -97,7 +97,7 @@ HuffNode * Bit_build(FILE * fptr)
   int done = 0;
   int cmdloc = 0;
   unsigned char onebyte = fgetc(fptr);
-  unsigned char masks[8] = {0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01};
+  unsigned char masks[] = {0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01};
   while(done == 0)
     {
       unsigned char command = (onebyte & masks[cmdloc]);
@@ -107,6 +107,7 @@ HuffNode * Bit_build(FILE * fptr)
 	  unsigned char anotherbyte = fgetc(fptr);
 	  unsigned char lowbits = anotherbyte >> (7 - cmdloc);
 	  unsigned char data = upbits | lowbits;
+	  onebyte = anotherbyte;
 	  HuffNode * temp = HuffNode_create(data);
 	  st = Stack_push(st, temp);
 	}
@@ -129,6 +130,10 @@ HuffNode * Bit_build(FILE * fptr)
 	      parent -> left = B;
 	      st = Stack_push(st, parent);
 	    }
+	}
+      if(cmdloc == 7)
+	{
+	  onebyte = fgetc(fptr);
 	}
       cmdloc = (cmdloc + 1) % 8;
     }
