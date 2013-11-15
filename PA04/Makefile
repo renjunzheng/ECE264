@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 
-=======
->>>>>>> a4ed72fb84f87f0b767d28001b3370bbf65bed45
 GCC = gcc
 CFLAGS = -g -Wall -Wshadow
 LIBS = -lm
@@ -57,34 +54,20 @@ $(TARGET): $(OBJS) | environment
 	$(GCC) $(CFLAGS) $(OBJS) $(LIBS) -o $@
 
 $(OBJF)/%.o: %.c | environment
-<<<<<<< HEAD
 	@$(GCC) -MM $(CFLAGS) $< | sed 's,^\([^ ]\),$(OBJF)\/\1,g' | sed '$$ s,$$, \\,' > $(OBJF)/$<.P
 	$(GCC) $(CFLAGS) -c -o $@ $<
-=======
-	@$(GCC) -MM $(CFLAGS) $< | sed 's,^\([^ ]\),$(OBJF)\/\1,g' | sed '$$ s,$$, \\,' > $(OBJF)/$<.P $(LIBS)
-	$(GCC) $(CFLAGS) -c -o $@ $< $(LIBS)
->>>>>>> a4ed72fb84f87f0b767d28001b3370bbf65bed45
 
 ${TESTS}: test%: $(TARGET) | environment
 	@echo '***************************************'
 	@echo "test$*"
 	@echo '***************************************'
 	./$(TARGET) inputs/input0$* > outputs/output$*
-<<<<<<< HEAD
 	cat outputs/output$* | sort | diff expected/output-sorted$* -
-=======
-	diff expected/output$* outputs/output$*
->>>>>>> a4ed72fb84f87f0b767d28001b3370bbf65bed45
 	$(VALGRIND) --log-file=outputs/memoutput$* ./$(TARGET) inputs/input0$* > /dev/null
 	@echo
 	@bin/valgrind-checker.sh outputs/memoutput$*
 	@echo 
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> a4ed72fb84f87f0b767d28001b3370bbf65bed45
 testz01: $(TARGET) | environment
 	./$(TARGET) inputs/input01 > outputs/output1
 	diff expected/output1 outputs/output1
