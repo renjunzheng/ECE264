@@ -85,7 +85,7 @@ void Stack_push(Stack * stack, int value)
         ListNode * ln = malloc(sizeof(ListNode));
         ln -> value = value;
         ln -> next = stack -> list;
-	stack -> list = ln;
+        stack -> list = ln;
     }
 }
 
@@ -132,11 +132,13 @@ void stackSort(int * array, int len)
  */
 int isStackSortable(int * array, int len)
 {
-  if (len < 3)
+    if(len < 3)
     {
-int min = get_Min(array);
+        return TRUE;
+    }
+    int min = get_Min(array);
 
-return FALSE;
+    return FALSE;
 }
 
 /**
