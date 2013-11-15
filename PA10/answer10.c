@@ -7,6 +7,8 @@
 
 #define TRUE 1
 #define FALSE 0
+Stack * Stack_delete(Stack * stack);
+int get_Min(int * array);
 
 /**
  * Returns a pointer to a new empty stack.
@@ -82,10 +84,8 @@ void Stack_push(Stack * stack, int value)
     {
         ListNode * ln = malloc(sizeof(ListNode));
         ln -> value = value;
-        ln -> next = stack;
-        Stack * stnew = malloc(sizeof(Stack));
-        stnew -> list = ln;
-        stack = stnew;
+        ln -> next = stack -> list;
+	stack -> list = ln;
     }
 }
 
@@ -132,7 +132,11 @@ void stackSort(int * array, int len)
  */
 int isStackSortable(int * array, int len)
 {
-    return FALSE;
+  if (len < 3)
+    {
+int min = get_Min(array);
+
+return FALSE;
 }
 
 /**
