@@ -140,14 +140,14 @@ void partIncrease(int * arr, int pos, int n)
   for(i = 1; i <= n; i++)
     {
       arr[pos] = i;
-      if(pos > 0 && arr[pos - 1] < arr[pos])
-	{
+      if((pos > 0 && arr[pos - 1] < arr[pos]) || (pos == 0))
+      	{
 	  partIncrease(arr, pos + 1, n - i);
 	}
-      if(pos == 0)
+      /*if(pos == 0)
 	{
 	  partIncrease(arr, pos + 1, n - i);
-	}
+	  }*/
     }
 }
 
