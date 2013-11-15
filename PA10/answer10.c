@@ -13,7 +13,9 @@
  */
 Stack * Stack_create()
 {
-    return NULL;
+    Stack * st = NULL;
+    st -> list = NULL;
+    return st;
 }
 
 /**
@@ -23,7 +25,14 @@ Stack * Stack_create()
  */
 void Stack_destroy(Stack * stack)
 {
-
+    if(stack == NULL)
+    {
+        return;
+    }
+    else
+    {
+        
+    }
 }
 
 /**
@@ -31,6 +40,7 @@ void Stack_destroy(Stack * stack)
  */
 int Stack_isEmpty(Stack * stack)
 {
+    
     return FALSE;
 }
 
@@ -43,7 +53,13 @@ int Stack_isEmpty(Stack * stack)
  */
 int Stack_pop(Stack * stack)
 {
-    return -1;
+    if(Stack_isEmpty(stack))
+        return -1;
+    else
+    {
+        int value = stack -> list -> value;
+        //can we write a new function of stack_delete
+    }
 }
 
 /**
@@ -55,7 +71,22 @@ int Stack_pop(Stack * stack)
  */
 void Stack_push(Stack * stack, int value)
 {
-
+    if(Stack_isEmpty(stack))
+    {
+        ListNode * ln = malloc(sizeof(ListNode));
+        ln -> value = value;
+        ln -> next = NULL;
+        stack -> list = ln;
+    }
+    else
+    {
+        ListNode * ln = malloc(sizeof(ListNode));
+        ln -> value = value;
+        ln -> next = stack;
+        Stack * stnew = malloc(sizeof(Stack));
+        stnew -> list = ln;
+        stack = stnew;
+    }
 }
 
 /**
