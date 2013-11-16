@@ -8,7 +8,6 @@
 #define TRUE 1
 #define FALSE 0
 Stack * Stack_delete(Stack * stack);
-int get_Min(int * array);
 
 /**
  * Returns a pointer to a new empty stack.
@@ -136,11 +135,68 @@ int isStackSortable(int * array, int len)
     {
         return TRUE;
     }
-    int min = get_Min(array);
-
-    return FALSE;
+    int max = array[0];
+    int i;
+    int loc = 0;
+    for(i = 0; i < len; i++)
+    {
+        if(array[i] > max)
+        {
+            max = array[i];
+            loc = i;
+        }
+    }
+    int * left = NULL;
+    int * right = NULL;
+    for(i = 0; i < loc; i++)
+    {
+        left[i] = array[i];
+    }
+    for(i = loc + 1; i < len; i++)
+    {
+        right[i - loc - 1] = array[i];
+    }
+    int leftMax = get_Max(left, loc + 1)
+    int rightMin = get_Min(right, len - loc - 1)
+    
+    if(leftMax < rightMIn)
+    {
+        isStackSortable(left, loc + 1);
+        isStackSortable(right, len - loc -1);
+    }
+    else
+    {
+        return FALSE;
+    }
 }
 
+int get_Max(int * array)
+{
+    int max = array[0];
+    int i;
+    for(i = 0; i < len; i++)
+    {
+        if(array[i] > max)
+        {
+            max = array[i];
+        }
+    }
+    return max;
+}
+
+int get_Min(int * array)
+{
+    int i;
+    min = array[0];
+    for(i = 0; i < len; i++)
+    {
+        if(array[i] < min)
+        {
+            min = array[i];
+        }
+    }
+    return min;
+}
 /**
  * Generates (and prints) all the unique binary tree shapes of size k
  *
