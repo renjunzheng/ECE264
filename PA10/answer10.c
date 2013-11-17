@@ -148,26 +148,40 @@ int isStackSortable(int * array, int len)
     }
     int * left = NULL;
     int * right = NULL;
-    for(i = 0; i < loc; i++)
+    if(loc != 0)//if there are no left part, the biggest number is in the leftmost
     {
-        left[i] = array[i];
+        for(i = 0; i < loc; i++)
+        {
+            left[i] = array[i];
+        }
     }
-    for(i = loc + 1; i < len; i++)
+    if(loc != len - 1)//if there are no right part, the biggest number is the rightmost
     {
-        right[i - loc - 1] = array[i];
+        for(i = loc + 1; i < len; i++)
+        {
+            right[i - loc - 1] = array[i];
+        }
     }
+    //if there are no left part, how to find leftMax. if there are no right part, how to find rightMin. Then how to compare the two numbers? How to recursive call the function
     int leftMax = get_Max(left, loc + 1)
     int rightMin = get_Min(right, len - loc - 1)
     
     if(leftMax < rightMIn)
     {
-        isStackSortable(left, loc + 1);
-        isStackSortable(right, len - loc -1);
+        if((isStackSortable(left, loc + 1)) && (isStackSortable(right, len - loc -1)))
+        {
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
     }
     else
     {
         return FALSE;
     }
+    return FALSE;
 }
 
 int get_Max(int * array)
