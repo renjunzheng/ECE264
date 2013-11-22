@@ -163,8 +163,8 @@ int isStackSortable(int * array, int len)
         }
     }
     //if there are no left part, how to find leftMax. if there are no right part, how to find rightMin. Then how to compare the two numbers? How to recursive call the function
-    int leftMax = get_Max(left, loc + 1)
-    int rightMin = get_Min(right, len - loc - 1)
+    int leftMax = get_Max(left, loc + 1);
+    int rightMin = get_Min(right, len - loc - 1);
     
     if(leftMax < rightMIn)
     {
