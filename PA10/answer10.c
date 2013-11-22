@@ -14,9 +14,9 @@ Stack * Stack_delete(Stack * stack);
  */
 Stack * Stack_create()
 {
-    Stack * st = NULL;
-    st -> list = NULL;
-    return st;
+  Stack * st = malloc(sizeof(Stack));
+  st -> list = NULL;
+  return st;
 }
 
 /**
@@ -26,13 +26,17 @@ Stack * Stack_create()
  */
 void Stack_destroy(Stack * stack)
 {
-    if(stack == NULL)
+  if(Stack_isEmpty(stack))
     {
         return;
     }
     else
     {
-        
+      Stack * temp = NULL;
+      temp = stack -> list;
+      stack = stack -> list -> next;
+      free(temp);
+      Stack_destroy(stack);
     }
 }
 
@@ -41,7 +45,14 @@ void Stack_destroy(Stack * stack)
  */
 int Stack_isEmpty(Stack * stack)
 {
-    
+  if(stack -> next != NULL)
+    {
+      return TRUE;
+    }
+  if(stack -> list != NULL)
+    {
+      return TRUE;
+    }
     return FALSE;
 }
 
@@ -59,9 +70,19 @@ int Stack_pop(Stack * stack)
     else
     {
         int value = stack -> list -> value;
-        //can we write a new function of stack_delete
+	stack = Stack_delet(stack);
+	return value;
     }
 }
+
+Stack * Stack_delete(Stack * stack)
+{
+  Stack * temp = NULL;
+  temp = stack -> list -> next;
+  free(stack);
+  return temp;
+}
+
 
 /**
  * Push an 'value' onto the front of the stack.
@@ -162,26 +183,42 @@ int isStackSortable(int * array, int len)
             right[i - loc - 1] = array[i];
         }
     }
-    //if there are no left part, how to find leftMax. if there are no right part, how to find rightMin. Then how to compare the two numbers? How to recursive call the function
-    int leftMax = get_Max(left, loc + 1);
-    int rightMin = get_Min(right, len - loc - 1);
+    if((loc != 0) && (loc != len - 1))
+      {
+	int leftMax = get_Max(left, loc + 1);
+	int rightMin = get_Min(right, len - loc - 1);
     
-    if(leftMax < rightMIn)
-    {
-        if((isStackSortable(left, loc + 1)) && (isStackSortable(right, len - loc -1)))
-        {
-            return TRUE;
-        }
-        else
-        {
-            return FALSE;
-        }
-    }
-    else
-    {
-        return FALSE;
-    }
-    return FALSE;
+	if(leftMax < rightMIn)
+	  {
+	    if((isStackSortable(left, loc + 1)) && (isStackSortable(right, len - loc -1)))
+	      {
+		return TRUE;
+	      }
+	    else
+	      {
+		return FALSE;
+	      }
+	  }
+	else//not necessary
+	  {
+	    return FALSE;
+	  }
+      }
+    else if(loc == 0)
+      {
+	if(isStackSortable(right, len - 1))
+	  {
+	    return TRUE;
+	  }
+      }
+    else if(loc == len - 1)
+      {
+	if(isStackSortable(left, len - 1))
+	  {
+	    return TRUE;
+	  }
+      }
+    return FASLE;
 }
 
 int get_Max(int * array)
